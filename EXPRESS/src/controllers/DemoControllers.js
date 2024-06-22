@@ -1,3 +1,4 @@
+
 exports.demo = (req, res) => {
   let userName = req.params.name;
   let userAge = req.params.age;
@@ -6,6 +7,8 @@ exports.demo = (req, res) => {
     age: userAge,
   });
 };
+
+
 
 exports.demo1 = (req, res) => {
   let name = req.body["name"];
@@ -18,6 +21,7 @@ exports.demo1 = (req, res) => {
   });
 };
 
+
 exports.demo2 = (req, res) => {
   let token = req.headers["token"];
   res.status(200).json({
@@ -29,7 +33,7 @@ exports.demo2 = (req, res) => {
 exports.demo3 = (req, res) => {
   let cookies = req.cookies['Cookie_1'];
   res.status(200).json({
-    cookies:cookies
+    cookies:cookies,
   })
   };
   
