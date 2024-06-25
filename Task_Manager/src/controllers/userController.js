@@ -36,3 +36,27 @@ exports.login = async (req, res) => {
     res.status(200).json({ status: "fail", data: e });
   }
 };
+
+
+exports.profileUpdate=async(req,res)=>{
+
+    try{
+        let email = req.body['email'];
+        let reqBody = req.body;
+    
+          let result=   await UserModel.updateOne(
+                {email:email},reqBody
+            );
+            res.status(200).json({
+                status: "succed",
+                data: result,
+              });
+        
+
+
+    }catch(e){
+        res.status(200).json({ status: "fail", data: e });
+
+    }
+
+}
