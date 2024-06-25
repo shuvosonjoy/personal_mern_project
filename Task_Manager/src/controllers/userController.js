@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
 
     if (result === 1) {
       let payload = {
-        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+        exp: Math.floor(Date.now() / 1000) + 24*60*60,
         data: reqBody["email"],
       };
       let token = jwt.sign(payload, "abcdef");
