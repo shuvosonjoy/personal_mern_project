@@ -11,17 +11,20 @@ exports.registration = async (req, res) => {
   }
 };
 
-
-
 exports.login = async (req, res) => {
-  let reqBody = req.body;
   try {
+    let reqBody = req.body;
     let result = await UserModel.find(reqBody).count();
 
     if (result === 1) {
+      let payload = {
+        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+        data: reqBody["email"],
+      };
+      let token = jwt.sign(payload, "abcdef");
       res.status(200).json({
         status: "success",
-        data: result,
+        data: token,
       });
     } else {
       res.status(200).json({
