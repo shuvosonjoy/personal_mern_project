@@ -49,7 +49,7 @@ exports.profileUpdate = async (req, res) => {
 
     let result = await UserModel.updateOne({ email: email }, reqBody);
     res.status(200).json({
-      status: "succed",
+      status: "update done!",
       data: result,
     });
   } catch (e) {
