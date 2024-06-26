@@ -1,3 +1,4 @@
+const { body } = require("mongoose-express-sanitizer");
 const UserModel = require("../models/usermodels");
 const jwt = require("jsonwebtoken");
 
@@ -43,8 +44,6 @@ exports.login = async (req, res) => {
 exports.profileUpdate = async (req, res) => {
   try {
     let email = req.headers['email'];
-    console.log("here  ");
-    console.log(email);
     let reqBody = req.body;
 
     let result = await UserModel.updateOne({ email: email }, reqBody);
@@ -56,3 +55,19 @@ exports.profileUpdate = async (req, res) => {
     res.status(200).json({ status: "fail", data: e });
   }
 };
+
+exports.profileDetails=async(req,res)=>{
+try{
+  let email = req.headers['email'];
+  let result = await UserModel.find({email:email});
+
+    res.status(200).json({
+      status:"success",
+      body:result
+    });
+
+
+}catch(e){
+  res.status(200).json({ status: "fail", data: e });
+}
+}
