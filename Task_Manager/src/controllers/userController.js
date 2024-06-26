@@ -2,6 +2,7 @@ const { body } = require("mongoose-express-sanitizer");
 const UserModel = require("../models/usermodels");
 const jwt = require("jsonwebtoken");
 const SendEmailUtility = require("../utility/sendEmailUtility");
+const otpModel = require("../models/otpModel");
 
 
 exports.registration = async (req, res) => {
@@ -78,7 +79,8 @@ exports.profileDetails = async (req, res) => {
 
 exports.recoverVerifyEmail = async (req,res) => {
   try {
-    let email = req.headers["email"];
+    let email = req.params.email;
+    console.log(email);
     let result = await UserModel.find({ email: email }).count();
     let otp = Math.floor(100000 +Math.random()*900000);
     let emailText = "Your OTP is: "+otp;
@@ -88,8 +90,10 @@ exports.recoverVerifyEmail = async (req,res) => {
     if (result === 1) {
       console.log("enterd");
       await SendEmailUtility(email,emailText,emailSubject);
+      await otpModel.create({email:email,otp:otp});
       res.status(200).json({
-        status:"otp sent"
+        status:"success",
+        data:"otp sent"
       });
     } else {
     }
