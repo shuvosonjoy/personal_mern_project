@@ -20,6 +20,7 @@ const SendEmailUtility = async (emailTo,emailText,emailSubject) => {
     subject: emailSubject,
     text: emailText,
   };
+  
   return await transporter.sendMail(mailOptions);
 };
 

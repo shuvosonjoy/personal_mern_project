@@ -1,6 +1,8 @@
 const { body } = require("mongoose-express-sanitizer");
 const UserModel = require("../models/usermodels");
 const jwt = require("jsonwebtoken");
+const SendEmailUtility = require("../utility/sendEmailUtility");
+
 
 exports.registration = async (req, res) => {
   let reqBody = req.body;
@@ -11,6 +13,7 @@ exports.registration = async (req, res) => {
     res.status(200).json({ status: "fail", data: e });
   }
 };
+
 
 exports.login = async (req, res) => {
   try {
@@ -24,11 +27,11 @@ exports.login = async (req, res) => {
       };
       let token = jwt.sign(payload, "abcdef");
       console.log(token);
- 
+
       res.status(200).json({
         status: "success",
         data: reqBody,
-        token:token,
+        token: token,
       });
     } else {
       res.status(200).json({
@@ -41,9 +44,10 @@ exports.login = async (req, res) => {
   }
 };
 
+
 exports.profileUpdate = async (req, res) => {
   try {
-    let email = req.headers['email'];
+    let email = req.headers["email"];
     let reqBody = req.body;
 
     let result = await UserModel.updateOne({ email: email }, reqBody);
@@ -56,18 +60,40 @@ exports.profileUpdate = async (req, res) => {
   }
 };
 
-exports.profileDetails=async(req,res)=>{
-try{
-  let email = req.headers['email'];
-  let result = await UserModel.find({email:email});
+
+exports.profileDetails = async (req, res) => {
+  try {
+    let email = req.headers["email"];
+    let result = await UserModel.find({ email: email });
 
     res.status(200).json({
-      status:"success",
-      body:result
+      status: "success",
+      body: result,
     });
+  } catch (e) {
+    res.status(200).json({ status: "fail", data: e });
+  }
+};
 
 
-}catch(e){
-  res.status(200).json({ status: "fail", data: e });
-}
-}
+exports.recoverVerifyEmail = async (req,res) => {
+  try {
+    let email = req.headers["email"];
+    let result = await UserModel.find({ email: email }).count();
+    let otp = Math.floor(100000 +Math.random()*900000);
+    let emailText = "Your OTP is: "+otp;
+    let emailSubject = "Task Manager Otp code";
+  
+
+    if (result === 1) {
+      console.log("enterd");
+      await SendEmailUtility(email,emailText,emailSubject);
+      res.status(200).json({
+        status:"otp sent"
+      });
+    } else {
+    }
+  } catch (e) {
+    res.status(200).json({ status: "fail", data: e });
+  }
+};
