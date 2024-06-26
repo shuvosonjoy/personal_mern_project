@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const userController = require("../controllers/userController");
+const authVerify = require("../middleware/authVerifyMiddleWare");
 
-const userController = require('../controllers/userController');
 
-
-router.post('/registration', userController.registration);
-router.post('/login',userController.login);
-router.post('/profileUpdate',userController.profileUpdate);
+router.post("/registration", userController.registration);
+router.post("/login", userController.login);
+router.post("/profileUpdate",authVerify, userController.profileUpdate);
 
 module.exports = router;
