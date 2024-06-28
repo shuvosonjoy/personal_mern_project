@@ -136,3 +136,25 @@ exports.verifyOtp = async (req,res)=>{
     res.status(200).json({ status: "fail", data: e });
   }
 }
+
+
+exports.resetPassword= async(req,res)=>{
+  try{
+
+    let email = req.params.email;
+    let otp = req.params.otp;
+    let password = req.params.password;
+    let result = await otpModel.find({email:email,otp:otp}).count();
+    if(result===1){
+      await UserModel.updateOne({email:email},{password:password});
+      res.status(200).json({status:"success",body:"password updated!"});
+    }
+    else{
+      res.status(200).json({status:"fail",body:"password update failed!"});
+
+    }
+  }catch(e){
+    es.status(200).json({ status: "fail", data: e });
+  }
+
+  }

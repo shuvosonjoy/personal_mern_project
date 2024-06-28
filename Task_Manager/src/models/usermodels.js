@@ -3,6 +3,7 @@ const DataSchema = mongoose.Schema(
   {
     email: { type: String, unique: true },
     firstName: { type: String },
+    password:{type:String},
   },
   { versionKey: false }
 );
