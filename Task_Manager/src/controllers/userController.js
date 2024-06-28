@@ -95,7 +95,7 @@ exports.recoverVerifyEmail = async (req,res) => {
         status:"success",
         data:"otp sent"
       });
-    } else {
+    } else { 
     }
   } catch (e) {
     res.status(200).json({ status: "fail", data: e });
