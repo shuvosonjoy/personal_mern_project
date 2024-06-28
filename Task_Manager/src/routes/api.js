@@ -9,5 +9,6 @@ router.post("/login", userController.login);
 router.post("/profileUpdate",authVerify, userController.profileUpdate);
 router.post("/profileDetails",authVerify,userController.profileDetails);
 router.post("/recoverEmail/:email",authVerify,userController.recoverVerifyEmail);
+router.post("/verifyOTP/:email/:otp",authVerify,userController.verifyOtp);
 
 module.exports = router;

@@ -96,8 +96,43 @@ exports.recoverVerifyEmail = async (req,res) => {
         data:"otp sent"
       });
     } else { 
+      res.status(200).json({
+        status:"fail",
+        data:"email not found!!!"
+      });
     }
   } catch (e) {
     res.status(200).json({ status: "fail", data: e });
   }
 };
+
+
+exports.verifyOtp = async (req,res)=>{
+  try{
+
+    let email = req.params.email;
+    let otp = req.params.otp;
+    let status = 0;
+    let updatedStatus =1;
+    let result = await otpModel.find({email:email,otp:otp,status:status}).count();
+    if(result === 1){
+      await otpModel.updateOne({email:email,otp:otp,status:status},{status:updatedStatus});
+
+      res.status(200).json({
+        status:"success",
+        data:"verification success!"
+      });
+
+    }
+    else{
+      res.status(200).json({
+        status:"fail",
+        data:"invalid otp!!!"
+      });
+    }
+
+
+  }catch(e){
+    res.status(200).json({ status: "fail", data: e });
+  }
+}
