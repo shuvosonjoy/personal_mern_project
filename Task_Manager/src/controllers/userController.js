@@ -141,9 +141,9 @@ exports.verifyOtp = async (req,res)=>{
 exports.resetPassword= async(req,res)=>{
   try{
 
-    let email = req.params.email;
+    let email = req.body["email"];
     let otp = req.params.otp;
-    let password = req.params.password;
+    let password = req.body["password"];
     let result = await otpModel.find({email:email,otp:otp}).count();
     if(result===1){
       await UserModel.updateOne({email:email},{password:password});
@@ -158,3 +158,5 @@ exports.resetPassword= async(req,res)=>{
   }
 
   }
+
+
