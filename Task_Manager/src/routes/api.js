@@ -15,5 +15,6 @@ router.post("/resetPassword/:otp",authVerify,userController.resetPassword);
 
 
 router.post("/createTask",authVerify, taskController.createTask);
+router.get("/updateTask/:name",authVerify,taskController.updateTask);
 
 module.exports = router;
