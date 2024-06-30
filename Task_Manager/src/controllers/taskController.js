@@ -40,6 +40,26 @@ exports.updateTask = async (req,res)=>{
         res.status(200).json({
             status:"fail",
             body:e
-        })
+        });
+    }
+}
+
+exports.deleteTask=async(req,res)=>{
+    try{
+        let email = req.headers["email"];
+        let taskName = req.params.name;
+
+        let result = await TaskModel.deleteOne({email:email,title:taskName});
+        res.status(200).json({
+            status:"success",
+            body:result
+        });
+
+    }catch(e){
+        res.status(200).json({
+            status:"fail",
+            body:e
+        });
+
     }
 }
