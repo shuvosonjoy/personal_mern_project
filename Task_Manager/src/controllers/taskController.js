@@ -63,3 +63,22 @@ exports.deleteTask=async(req,res)=>{
 
     }
 }
+
+
+exports.showAllTask = async (req,res)=>{
+    try{
+        let email = req.headers["email"];
+        let result = await TaskModel.find({email:email});
+        res.status(200).json({
+            status:"success",
+            body:result
+        });
+
+    }catch(e){
+        res.status(200).json({
+            status:"fail",
+            body:e
+        });
+
+    }
+}
